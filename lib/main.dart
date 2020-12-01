@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'transaction.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,6 +20,21 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  final List<Transaction> transactions = <Transaction>[
+    Transaction(
+      id: 't1',
+      title: 'New Shoes',
+      amount: 20.50,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Groceries',
+      amount: 40.50,
+      date: DateTime.now(),
+    )
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,10 +53,44 @@ class MyHomePage extends StatelessWidget {
                 elevation: 5,
               ),
             ),
-            Card(
-              color: Colors.red,
-              child: Text('LIST OF TX'),
-            )
+            Column(
+              children: <Widget>[
+                ...transactions.map((transaction) {
+                  return Card(
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 2,
+                            ),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          child: Text(
+                            transaction.amount.toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.purple,
+                            ),
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            Text(transaction.title),
+                            Text(transaction.date.toString()),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                }),
+              ],
+            ),
           ],
         ));
   }

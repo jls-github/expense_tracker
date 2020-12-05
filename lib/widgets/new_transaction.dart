@@ -12,6 +12,16 @@ class NewTransaction extends StatelessWidget {
     this.addNewTransaction,
   );
 
+  void _onSubmitTransaction() {
+    final title = titleController.text;
+    final amount = int.parse(amountController.text);
+
+    if (title.isEmpty || amount <= 0) {
+      return;
+    }
+    addNewTransaction(title, amount);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -22,25 +32,34 @@ class NewTransaction extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: InputDecoration(
+                labelText: 'Title',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () => titleController.clear(),
+                ),
+              ),
               controller: titleController,
+              onSubmitted: (_) => _onSubmitTransaction(),
             ),
             TextField(
-              decoration: InputDecoration(labelText: 'Amount'),
+              decoration: InputDecoration(
+                labelText: 'Amount',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () => amountController.clear(),
+                ),
+              ),
               controller: amountController,
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
               ],
+              onSubmitted: (_) => _onSubmitTransaction(),
             ),
             FlatButton(
               child: Text('Add Transaction'),
-              onPressed: () {
-                addNewTransaction(
-                  titleController.text,
-                  int.parse(amountController.text),
-                );
-              },
+              onPressed: () => _onSubmitTransaction(),
               textColor: Colors.purple,
             )
           ],

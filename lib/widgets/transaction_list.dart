@@ -16,9 +16,10 @@ class _TransactionListState extends State<TransactionList> {
   _TransactionListState(this.transactions);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        ...transactions.map((transaction) {
+    return Container(
+      height: 300,
+      child: ListView.builder(
+        itemBuilder: (context, index) {
           return Card(
             child: Row(
               children: [
@@ -35,7 +36,7 @@ class _TransactionListState extends State<TransactionList> {
                     horizontal: 9,
                   ),
                   child: Text(
-                    "\$${transaction.formattedAmount()}",
+                    "\$${transactions[index].formattedAmount()}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -47,14 +48,14 @@ class _TransactionListState extends State<TransactionList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      transaction.title,
+                      transactions[index].title,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
                     Text(
-                      DateFormat.yMMMd().format(transaction.date),
+                      DateFormat.yMMMd().format(transactions[index].date),
                       style: TextStyle(
                         color: Colors.grey,
                       ),
@@ -64,8 +65,9 @@ class _TransactionListState extends State<TransactionList> {
               ],
             ),
           );
-        }),
-      ],
+        },
+        itemCount: transactions.length,
+      ),
     );
   }
 }

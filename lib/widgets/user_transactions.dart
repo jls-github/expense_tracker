@@ -34,7 +34,14 @@ class _UserTransactionsState extends State<UserTransactions> {
       id: DateTime.now().toString(),
     );
 
+    _clearTextFields();
+
     setState(() => _transactions.add(newTransaction));
+  }
+
+  void _clearTextFields() {
+    titleController.clear();
+    amountController.clear();
   }
 
   @override
